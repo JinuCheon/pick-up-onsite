@@ -42,6 +42,15 @@ public class CreatePickUpOnsiteTest {
         assertThrows(AssertionError.class, () -> sut.register(deliverySequence));
     }
 
+    @Test
+    void 이미_현장수령이_등록된_주문은_현장수령을_등록할_수_없다() {
+        final String deliverySequence = "delivery20241225";
+
+        sut.register(deliverySequence);
+
+        assertThrows(AssertionError.class, () -> sut.register(deliverySequence));
+    }
+
     private void assertDelivery(final String deliverySequence) {
         final PickingUpOnSiteDelivery delivery = pickUpOnsiteRepository.getBy(deliverySequence);
         JsonApprovals.verifyJson(toString(delivery));
