@@ -1,5 +1,8 @@
 package com.example.pickuponsite;
 
+import lombok.Getter;
+
+@Getter
 public class PickingUpOnSiteDeliveryItem {
     Long goodsId;
     String goodsCode;
@@ -8,7 +11,7 @@ public class PickingUpOnSiteDeliveryItem {
     String imageUrl;
     Long qty;
 
-    private PickingUpOnSiteDeliveryItem(final Long goodsId, final String goodsCode, final String barcode, final String offlineBarcode, final String imageUrl, final Long qty) {
+    PickingUpOnSiteDeliveryItem(final Long goodsId, final String goodsCode, final String barcode, final String offlineBarcode, final String imageUrl, final Long qty) {
         this.goodsId = goodsId;
         this.goodsCode = goodsCode;
         this.barcode = barcode;
