@@ -6,12 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.approvaltests.JsonApprovals;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -63,100 +57,6 @@ public class CreatePickUpOnsiteTest {
             return objectMapper.writeValueAsString(delivery);
         } catch (final JsonProcessingException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private class CreatePickUpOnsiteController {
-
-        private final CommerceOrderRepository commerceOrderRepository;
-        private final PickUpOnsiteRepository pickUpOnsiteRepository;
-
-        public CreatePickUpOnsiteController(final CommerceOrderRepository commerceOrderRepository, final PickUpOnsiteRepository pickUpOnsiteRepository) {
-            this.commerceOrderRepository = commerceOrderRepository;
-            this.pickUpOnsiteRepository = pickUpOnsiteRepository;
-        }
-
-        void register(final String deliverySequence) {
-            final CommerceOrder commerceOrder = commerceOrderRepository.getBy(deliverySequence);
-
-            final PickingUpOnSiteDelivery pickUpOnsiteDelivery = commerceOrder.toPickUpOnsite();
-
-            pickUpOnsiteRepository.save(pickUpOnsiteDelivery);
-        }
-    }
-
-    private record CommerceOrder(
-            Long id,
-            String deliverySequence,
-            String status,
-            String zone,
-            LocalDate requestedPickingDate, // 요청수령일
-            LocalDate receivedDate, // 수령완료일
-            String userId,
-            String userName,
-            String userPhone,
-            List<OrderItem> items
-    ) {
-
-        public PickingUpOnSiteDelivery toPickUpOnsite() {
-            final PickingUpOnSiteDelivery pickUpOnsiteDelivery = new PickingUpOnSiteDelivery(
-                    id,
-                    deliverySequence,
-                    status,
-                    zone,
-                    requestedPickingDate,
-                    receivedDate,
-                    userId,
-                    userName,
-                    userPhone
-            );
-            pickUpOnsiteDelivery.assignItems(items.stream().map(OrderItem::toPickUpOnsiteItem).toList());
-            return pickUpOnsiteDelivery;
-        }
-
-        private record OrderItem(
-                Long goodsId,
-                String goodsCode,
-                String barcode,
-                String offlineBarcode,
-                String imageUrl,
-                Long qty
-        ) {
-            private PickingUpOnSiteDeliveryItem toPickUpOnsiteItem() {
-                return new PickingUpOnSiteDeliveryItem(goodsId, goodsCode, barcode, offlineBarcode, imageUrl, qty);
-            }
-        }
-    }
-
-    private class PickUpOnsiteRepository {
-        private final Map<String, PickingUpOnSiteDelivery> storage = new HashMap<>();
-
-        public PickingUpOnSiteDelivery getBy(final String deliverySequence) {
-            assert storage.containsKey(deliverySequence) : "No delivery sequence";
-            return storage.get(deliverySequence);
-        }
-
-        public void save(final PickingUpOnSiteDelivery pickUpOnsiteDelivery) {
-            assert !storage.containsKey(pickUpOnsiteDelivery.getDeliverySequence()) : "Already exists";
-            storage.put(pickUpOnsiteDelivery.getDeliverySequence(), pickUpOnsiteDelivery);
-        }
-    }
-
-    private class CommerceOrderRepository {
-        public CommerceOrder getBy(final String deliverySequence) {
-            assert !Objects.equals(deliverySequence, "illegalDeliverySequence") : "No delivery sequence";
-            return new CommerceOrder(
-                    1L,
-                    deliverySequence,
-                    "ORDERED",
-                    "ZONE_A",
-                    LocalDate.of(2024, 12, 25),
-                    null,
-                    "user1",
-                    "홍길동",
-                    "01012345678",
-                    List.of(new CommerceOrder.OrderItem(1L, "goods1", "barcode1", "offlineBarcode1", "imageUrl1", 1L))
-            );
         }
     }
 }
