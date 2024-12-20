@@ -2,10 +2,10 @@ package com.example.pickuponsite;
 
 class CreatePickUpOnsiteController {
 
-    private final CommerceOrderRepository commerceOrderRepository;
-    private final PickUpOnsiteRepository pickUpOnsiteRepository;
+    private final MemoryCommerceOrderRepository commerceOrderRepository;
+    private final MemoryPickUpOnsiteRepository pickUpOnsiteRepository;
 
-    public CreatePickUpOnsiteController(final CommerceOrderRepository commerceOrderRepository, final PickUpOnsiteRepository pickUpOnsiteRepository) {
+    public CreatePickUpOnsiteController(final MemoryCommerceOrderRepository commerceOrderRepository, final MemoryPickUpOnsiteRepository pickUpOnsiteRepository) {
         this.commerceOrderRepository = commerceOrderRepository;
         this.pickUpOnsiteRepository = pickUpOnsiteRepository;
     }

@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * - [ ] 이미 현장수령이 등록된 주문은 현장수령을 등록할 수 없다
  */
 public class CreatePickUpOnsiteTest {
-    private final PickUpOnsiteRepository pickUpOnsiteRepository = new PickUpOnsiteRepository();
-    private final CreatePickUpOnsiteController sut = new CreatePickUpOnsiteController(new CommerceOrderRepository(), pickUpOnsiteRepository);
+    private final MemoryPickUpOnsiteRepository pickUpOnsiteRepository = new MemoryPickUpOnsiteRepository();
+    private final CreatePickUpOnsiteController sut = new CreatePickUpOnsiteController(new MemoryCommerceOrderRepository(), pickUpOnsiteRepository);
 
     @Test
     void 고객의_배송번호_바코드를_찍어서_현장수령을_등록한다() {
