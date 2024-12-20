@@ -14,7 +14,7 @@ import java.util.Map;
  * - [ ] 이미 현장수령이 등록된 주문은 현장수령을 등록할 수 없다
  */
 public class CreatePickUpOnsiteTest {
-    private final CreatePickUpOnsiteController sut = new CreatePickUpOnsiteController();
+    private final CreatePickUpOnsiteController sut = new CreatePickUpOnsiteController(new CommerceOrderRepository(), new PickUpOnsiteRepository());
     private final PickUpOnsiteRepository pickUpOnsiteRepository = new PickUpOnsiteRepository();
 
     @Test
@@ -27,8 +27,21 @@ public class CreatePickUpOnsiteTest {
     }
 
     private class CreatePickUpOnsiteController {
-        public void register(final String deliverySequence) {
-            throw new UnsupportedOperationException("Unsupported register");
+
+        private final CommerceOrderRepository commerceOrderRepository;
+        private final PickUpOnsiteRepository pickUpOnsiteRepository;
+
+        public CreatePickUpOnsiteController(final CommerceOrderRepository commerceOrderRepository, final PickUpOnsiteRepository pickUpOnsiteRepository) {
+            this.commerceOrderRepository = commerceOrderRepository;
+            this.pickUpOnsiteRepository = pickUpOnsiteRepository;
+        }
+
+        void register(final String deliverySequence) {
+            final CommerceOrder commerceOrder = commerceOrderRepository.getBy(deliverySequence);
+
+            final PickingUpOnSiteDelivery pickUpOnsiteDelivery = commerceOrder.toPickUpOnsite();
+
+            pickUpOnsiteRepository.save(pickUpOnsiteDelivery);
         }
     }
 
@@ -38,6 +51,22 @@ public class CreatePickUpOnsiteTest {
         public PickingUpOnSiteDelivery getBy(final String deliverySequence) {
             assert storage.containsKey(deliverySequence) : "No delivery sequence";
             return storage.get(deliverySequence);
+        }
+
+        public void save(final PickingUpOnSiteDelivery pickUpOnsiteDelivery) {
+            throw new UnsupportedOperationException("Unsupported save");
+        }
+    }
+
+    private class CommerceOrder {
+        public PickingUpOnSiteDelivery toPickUpOnsite() {
+            throw new UnsupportedOperationException("Unsupported toPickUpOnsite");
+        }
+    }
+
+    private class CommerceOrderRepository {
+        public CommerceOrder getBy(final String deliverySequence) {
+            throw new UnsupportedOperationException("Unsupported getBy");
         }
     }
 }
