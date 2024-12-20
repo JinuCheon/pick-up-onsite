@@ -1,8 +1,11 @@
 package com.example.pickuponsite;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class MemoryPickUpOnsiteRepository implements PickUpOnsiteRepository {
     private final Map<String, PickingUpOnSiteDelivery> storage = new HashMap<>();
 

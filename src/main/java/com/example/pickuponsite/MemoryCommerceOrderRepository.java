@@ -1,9 +1,12 @@
 package com.example.pickuponsite;
 
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 class MemoryCommerceOrderRepository implements CommerceOrderRepository {
     CommerceOrder getBy(final String deliverySequence) {
         assert !Objects.equals(deliverySequence, "illegalDeliverySequence") : "No delivery sequence";
