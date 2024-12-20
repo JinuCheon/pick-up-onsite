@@ -137,6 +137,7 @@ public class CreatePickUpOnsiteTest {
         }
 
         public void save(final PickingUpOnSiteDelivery pickUpOnsiteDelivery) {
+            assert !storage.containsKey(pickUpOnsiteDelivery.getDeliverySequence()) : "Already exists";
             storage.put(pickUpOnsiteDelivery.getDeliverySequence(), pickUpOnsiteDelivery);
         }
     }
