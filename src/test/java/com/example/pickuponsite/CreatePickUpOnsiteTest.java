@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -32,6 +33,13 @@ public class CreatePickUpOnsiteTest {
         sut.register(deliverySequence);
 
         assertDelivery(deliverySequence);
+    }
+
+    @Test
+    void 주문이력이_없다면_현장수령을_등록할_수_없다() {
+        final String deliverySequence = "illegalDeliverySequence";
+
+        assertThrows(AssertionError.class, () -> sut.register(deliverySequence));
     }
 
     private void assertDelivery(final String deliverySequence) {
@@ -126,7 +134,7 @@ public class CreatePickUpOnsiteTest {
 
     private class CommerceOrderRepository {
         public CommerceOrder getBy(final String deliverySequence) {
-//            assert !Objects.equals(deliverySequence, "illegalDeliverySequence") : "No delivery sequence";
+            assert !Objects.equals(deliverySequence, "illegalDeliverySequence") : "No delivery sequence";
             return new CommerceOrder(
                     1L,
                     deliverySequence,
