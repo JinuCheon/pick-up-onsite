@@ -1,6 +1,10 @@
 package com.example.pickuponsite;
 
+import org.approvaltests.JsonApprovals;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 커머스에서 결제를 완료한 고객을 대상으로, 현장수령을 등록합니다.
@@ -19,7 +23,7 @@ public class CreatePickUpOnsiteTest {
 
         sut.register(deliverySequence);
 
-        pickUpOnsiteRepository.getBy(deliverySequence);
+        JsonApprovals.verifyAsJson(pickUpOnsiteRepository.getBy(deliverySequence));
     }
 
     private class CreatePickUpOnsiteController {
@@ -29,8 +33,11 @@ public class CreatePickUpOnsiteTest {
     }
 
     private class PickUpOnsiteRepository {
-        public void getBy(final String deliverySequence) {
-            throw new UnsupportedOperationException("Unsupported getBy");
+        private final Map<String, PickingUpOnSiteDelivery> storage = new HashMap<>();
+
+        public PickingUpOnSiteDelivery getBy(final String deliverySequence) {
+            assert storage.containsKey(deliverySequence) : "No delivery sequence";
+            return storage.get(deliverySequence);
         }
     }
 }
