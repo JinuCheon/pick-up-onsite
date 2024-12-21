@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * - [v] 주문 이력이 없다면 현장수령을 등록할 수 없다
  * - [ ] 이미 현장수령이 등록된 주문은 현장수령을 등록할 수 없다
  */
-public class CreatePickUpOnsiteTest {
+public class RegisterPickUpOnsiteTest {
     private final MemoryPickUpOnsiteRepository pickUpOnsiteRepository = new MemoryPickUpOnsiteRepository();
     private final CreatePickUpOnsiteController sut = new CreatePickUpOnsiteController(new MemoryCommerceOrderRepository(), pickUpOnsiteRepository);
 
